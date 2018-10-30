@@ -1,0 +1,113 @@
+Script started on Sun Nov 12 12:42:12 2006
+warning: could not update utmp entry
+
+u17(1)%	
+u17(1)%	mtip -f tunix.lnx -b 10
+For command help, type ~?
+For help on args, rerun without args
+Code starts at 0x100100
+Using board # 10 
+
+Tutor> ~downloading tunix.lnx
+...........Done.
+
+Download done, setting EIP to 100100.
+Tutor> go 100100
+aaaaaaaaaazzzAAAAAAAAAAbbbbbbbbbbccccSHUTTING DOWN
+cccccc
+EXIT CODE OF PROCESS 1: 2
+
+EXIT CODE OF PROCESS 2: 4
+
+EXIT CODE OF PROCESS 3: 6
+SHUTTING THE SYSTEM DOWN!
+Debug log from run:
+Marking kernel events as follows:
+  ^a   COM2 input interrupt, a received
+  ~a   COM2 output interrupt, a output
+  ~e   COM2 output interrupt, echo output
+  ~S   COM2 output interrupt, shutdown TX ints
+  |(1z-2) process switch from 1, now a zombie, to 2
+  |(1b-2) process switch from 1, now blocked, to 2
+  |(0-1) process switch from 0 to 1
+-----------------DEBUGLOG-------------------------------------
+|(0-1)|(1b-2)|(2b-3)|(3b-0)~a|(0-1)|(1b-2)|(2b-3)|(3b-0)~a|(0-1)|(1b-2)|(2b-3)|(3b-0)~a|(0-1)|(1b-2)|(2b-3)|(3b-0)~a|(0-1)|(1b-2)|(2b-3)|(3b-0)~a|(0-1)|(1b-2)|(2b-3)|(3b-0)~a|(0-1)|(1b-2)|(2b-3)|(3b-0)~a|(0-1)~a~a~a~z~z~z~S~A|(1b-2)|(2b-3)|(3b-0)~A|(0-1)|(1b-2)|(2b-3)|(3b-0)~A|(0-1)|(1b-2)|(2b-3)|(3b-0)~A|(0-1)|(1z-2)|(2b-3)|(3b-0)~A|(0-2)|(2b-3)|(3b-0)~A|(0-2)|(2b-3)|(3b-0)~A|(0-2)|(2b-3)|(3b-0)~A|(0-2)|(2b-3)|(3b-0)~A|(0-2)|(2b-3)|(3b-0)~A|(0-2)|(2b-3)|(3b-0)~b|(0-2)|(2b-3)|(3b-0)~b|(0-2)|(2b-3)|(3b-0)~b|(0-2)|(2b-3)|(3b-0)~b|(0-2)|(2z-3)|(3b-0)~b|(0-3)|(3b-0)~b|(0-3)|(3b-0)~b|(0-3)|(3b-0)~b|(0-3)|(3b-0)~b|(0-3)|(3b-0)~b|(0-3)|(3b-0)~c|(0-3)|(3b-0)~c|(0-3)|(3b-0)~c|(0-3)|(3b-0)~c|(0-3)|(3z-0)~c~c~c~c~c~c~S
+--------------------------------------------------------------
+
+LEAVE KERNEL!
+
+Exception 3 at EIP=0010010b: Breakpoint
+Tutor> ~q 
+Quit handler: 
+killing process 10327 Leaving board #10
+u17(2)%	exit
+script done on Sun Nov 12 12:42:59 2006
+
+DEBUGLOG analysis:
+
+|(0-1)|(1b-2)|(2b-3)|(3b-0)   This shows 3 processes blocking on output
+~a|(0-1)  a finally output, all processes waked up, process 1 is chosen to run
+|(1b-2)|(2b-3)|(3b-0)
+~a|(0-1)
+|(1b-2)|(2b-3)|(3b-0)
+~a|(0-1)
+|(1b-2)|(2b-3)|(3b-0)
+~a|(0-1)
+|(1b-2)|(2b-3)|(3b-0)
+~a|(0-1)
+|(1b-2)|(2b-3)|(3b-0)
+~a|(0-1)
+|(1b-2)|(2b-3)|(3b-0)
+~a|(0-1)
+start delay loop in uprog1
+~a~a~a~z~z~z~S  drain output Q, shut down ints, all processes have status RUN
+~A|(1b-2)|(2b-3)|(3b-0)  
+~A|(0-1)
+|(1b-2)|(2b-3)|(3b-0)
+~A|(0-1)
+|(1b-2)|(2b-3)|(3b-0)
+~A|(0-1)
+|(1z-2)  process 1 finishes
+|(2b-3)|(3b-0)   blocking like before, but only 2 processes now
+~A|(0-2)
+|(2b-3)|(3b-0)
+~A|(0-2)
+|(2b-3)|(3b-0)
+~A|(0-2)
+|(2b-3)|(3b-0)
+~A|(0-2)
+|(2b-3)|(3b-0)
+~A|(0-2)
+|(2b-3)|(3b-0)
+~A|(0-2)
+|(2b-3)|(3b-0)
+~b|(0-2)
+|(2b-3)|(3b-0)
+~b|(0-2)
+|(2b-3)|(3b-0)
+~b|(0-2)
+|(2b-3)|(3b-0)
+~b|(0-2)
+|(2z-3)  process 2 exits
+|(3b-0)
+~b|(0-3)
+|(3b-0)
+~b|(0-3)
+|(3b-0)
+~b|(0-3)
+|(3b-0)
+~b|(0-3)
+|(3b-0)
+~b|(0-3)
+|(3b-0)
+~b|(0-3)
+|(3b-0)
+~c|(0-3)
+|(3b-0)
+~c|(0-3)
+|(3b-0)
+~c|(0-3)
+|(3b-0)
+~c|(0-3)
+|(3z-0) process 3 exits
+~c~c~c~c~c~c~S  during shutdown: wait for output to drain

@@ -1,0 +1,10 @@
+Tutor> go 100100
+startflag=0
+A requests mutex
+A has mutex, enter 2 chars:
+B requests mutex
+12A got 12, releasing mutex
+B has mutex, enter 2 chars:
+34B got 34, releasing mSHUTTING DOWN
+utex
+

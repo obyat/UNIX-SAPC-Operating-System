@@ -1,0 +1,48 @@
+Note: This differs from $cs444/hw3.soln/tunix.script because the debug-log
+reports of form "|(0-0)" have been suppressed by code in sched.c.
+With all these repetitive reports gone, it is easier to see the
+sequence  ~~~~~~~s in the middle when main1 loops long enough to drain
+the output queue, causing the output interrupt handler to shut down 
+TX interrupts (the s indicates the shutdown of TX ints.)
+
+Script started on Fri Nov 26 11:16:52 2004
+warning: could not update utmp entry
+u18(1)%	
+u18(1)%	mtip -b 7 -f uprog123.lnx
+For command help, type ~?
+For help on args, rerun without args
+Code starts at 0x100100
+Using board # 7 
+
+Tutor> ~downloading uprog123.lnx
+..............Done.
+
+Download done, setting EIP to 100100.
+Tutor> go 100100
+aaaaaaaaaazzzAAAAAAAAAAbbbbbbbbbbccccSHUTTING DOWN
+cccccc
+EXIT CODE OF PROCESS 1: 2
+
+EXIT CODE OF PROCESS 2: 4
+
+EXIT CODE OF PROCESS 3: 6
+SHUTTING THE SYSTEM DOWN!
+Debug log from run:
+Marking kernel events as follows:
+  ^a   COM2 input interrupt, a received
+  ~    COM2 output interrupt, ordinary char output
+  ~e   COM2 output interrupt, echo output
+  ~s   COM2 output interrupt, shutdown TX ints
+  |(1z-2) process switch from 1, now a zombie, to 2
+  |(1b-2) process switch from 1, now blocked, to 2
+  |(2-1) process switch (by preemption) from 2 to 1
+|(0-1)|(1b-2)|(2b-3)|(3b-0)~|(0-1)|(1b-2)|(2b-3)|(3b-0)~|(0-1)|(1b-2)|(2b-3)|(3b-0)~|(0-1)|(1b-2)|(2b-3)|(3b-0)~|(0-1)|(1b-2)|(2b-3)|(3b-0)~|(0-1)|(1b-2)|(2b-3)|(3b-0)~|(0-1)|(1b-2)|(2b-3)|(3b-0)~|(0-1)~~~~~~~s~|(1b-2)|(2b-3)|(3b-0)~|(0-1)|(1b-2)|(2b-3)|(3b-0)~|(0-1)|(1b-2)|(2b-3)|(3b-0)~|(0-1)|(1z-2)|(2b-3)|(3b-0)~|(0-2)|(2b-3)|(3b-0)~|(0-2)|(2b-3)|(3b-0)~|(0-2)|(2b-3)|(3b-0)~|(0-2)|(2b-3)|(3b-0)~|(0-2)|(2b-3)|(3b-0)~|(0-2)|(2b-3)|(3b-0)~|(0-2)|(2b-3)|(3b-0)~|(0-2)|(2b-3)|(3b-0)~|(0-2)|(2b-3)|(3b-0)~|(0-2)|(2z-3)|(3b-0)~|(0-3)|(3b-0)~|(0-3)|(3b-0)~|(0-3)|(3b-0)~|(0-3)|(3b-0)~|(0-3)|(3b-0)~|(0-3)|(3b-0)~|(0-3)|(3b-0)~|(0-3)|(3b-0)~|(0-3)|(3b-0)~|(0-3)|(3z-0)~~~~~~~s
+LEAVE KERNEL!
+
+Exception 3 at EIP=0010010b: Breakpoint
+Tutor> 
+Tutor> 
+Quit handler: 
+killing process 2017 Leaving board #7
+u18(2)%	exit
+script done on Fri Nov 26 11:17:40 2004

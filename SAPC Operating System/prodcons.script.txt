@@ -1,0 +1,10 @@
+Tutor> ~downloading prodcons.lnx
+.................Done.
+
+
+Download done, setting EIP to 100100.
+Tutor> go 100100
+producer-start
+consumer-start
+[p2][p4][p6][p8][p10][c2][c4][c6][c8][c10][p12][p14][p16][p18][p20][c12][c14][c16][c18][c20][p22][p24][p26][p28][p30][c22][c24][c26][c28][SHUTTING DOWN
+c30]

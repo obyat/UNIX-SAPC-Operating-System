@@ -1,0 +1,50 @@
+hw5 Option B: Semaphore system calls
+Implement the simplified semaphore syscall service:
+
+	semid = sem_create(init_count)
+	down(semid)
+	up(semid)
+	sem_delete(semid)
+
+Make the process block when waiting on a semaphore.  
+Use FIFO among the waiting processes, or explain what other
+scheme you are using.  The same queue package we used before, 
+modified for holding ints instead of chars, is provided in 
+subdirectory "intqueue".
+
+There is a challenge here to overcome a mismatch between the
+"broadcast" wakeup and the selective action of "up", which is
+supposed to awaken only one process.  Each process awakened
+on a semaphore needs to check that it is an "appointed" one.
+Two ups in quick succession would similarly appoint two
+processes.  You can use a new field in PEntry to keep track
+of a processes' semaphore-status.
+
+Our system now takes a three user programs in one file, that
+is, a trio of user programs.
+
+The user level program trio prodcons.c is supplied, that also uses an
+intqueue for the shared buffer between the producer and consumer.
+A simpler user test program trio using only mutex is provided in
+testmutex.c.
+
+Note the debuglog facility.  You can use this to track events
+in your semaphore service without disturbing the timing with
+output.  In particular, add little reports such as "up(0:1)"
+to mark an up that makes sem 0's count reach 1.
+
+Testing: your scripts should show debuglog output.
+
+1. First get testmutex working.  See testmutex.script.
+Make your own testmutex.script.
+
+2. Then get prodcons working.  See prodcons.script. Make your own script 
+in prodcons.script.
+
+3. Finally, modify testmutex to have main1 join the group trying
+to input from the console one by one under mutex.  Call this testmutex3.c
+since it has 3 processes using the mutex.  Make a script in testmutex3.script.
+
+
+
+
